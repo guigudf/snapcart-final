@@ -1,42 +1,32 @@
-pipeline { 
-    agent any 
-    stages { 
-        stage('Checkout') { 
-            steps { 
-                checkout scm 
-            } 
-        } 
+pipeline {
+    agent any
 
-        stage('Terraform Init') { 
-            steps { 
-                sh 'terraform init' 
-            } 
-        } 
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/guigudf/snapcart-final'
+            }
+        }
 
-        stage('Terraform Plan') { 
+        stage('Install Dependencies') {
+            steps {
+                bat 'npm install'
+            }
+        }
 
-            steps { 
+        stage('Run Tests') {
+            steps {
+                bat 'npm test'
+            }
+        }
+    }
 
-                sh 'terraform plan' 
-
-            } 
-
-        } 
-
-        stage('Terraform Apply') { 
-            steps { 
-                sh 'terraform apply -auto-approve' 
-            } 
-        } 
-    } 
-
-    post { 
-        success { 
-            echo 'SnapCart provisioned by Terraform via Jenkins.' 
-        } 
-
-        failure { 
-            echo 'Pipeline failed. Check the console output.' 
-        } 
-    } 
-} 
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Check the console output.'
+        }
+    }
+}
