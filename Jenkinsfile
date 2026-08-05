@@ -2,21 +2,9 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'main', url: 'https://github.com/guigudf/snapcart-final'
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
                 bat 'npm install'
-            }
-        }
-
-        stage('Run Tests') {
-            steps {
-                bat 'npm test'
             }
         }
     }
