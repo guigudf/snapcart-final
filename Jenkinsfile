@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/guigudf/snapcart-final'
+                git branch: 'main', url: 'https://github.com/guigudf/snapcart-final'
             }
         }
 
